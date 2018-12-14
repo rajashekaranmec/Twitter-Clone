@@ -1,0 +1,50 @@
+﻿@foreach (var item in ViewData["TweetData"] as List<MyTwitterClone.Entity.TweetEntity>)
+{
+    <div class="row">
+        <div class="col-md-2">
+            <h4>@item.user_id</h4>
+        </div>
+        <div class="col-md-2">
+            <h4>@item.message</h4>
+        </div>
+        <div class="col-md-4">
+            <h4>@item.created.ToString()</h4>
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="EditTweet" value="@item.user_id" class="btn btn-info">Edit Tweet</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="DeleteTweet" value="@item.user_id" class="btn btn-info">Delete Tweet</button>
+        </div>
+    </div>
+}
+<script>
+    $(".btn btn-info").click(function () {
+        debugger;
+        var TweetEntity = new Object();
+        TweetEntity.tweet_id = $(this).val();
+        if (TweetEntity != null) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/DeleteTweet",
+                data: JSON.stringify(TweetEntity),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response != null) {
+                        $('#result').load('/Home/Partial_GetTweetsDetails');
+                    } else {
+                        alert("Something went wrong");
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+
+    });
+</script>

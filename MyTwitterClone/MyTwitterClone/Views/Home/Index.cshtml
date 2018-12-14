@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h4><a class="nav navbar-nav navbar-right" href="javascript:void(0);" id="MyTweetBtn1" style="color: #428bca; text-decoration: underline; ">@ViewBag.TweetsCount</a></h4>
+            </div>
+            <div class="col-md-6">
+                <h4>Tweets</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h4><a class="nav navbar-nav navbar-right" href="javascript:void(0);" id="MyTweetBtn2" style="color: #428bca; text-decoration: underline; ">@ViewBag.FollwingCount</a></h4>
+            </div>
+            <div class="col-md-6">
+                <h4>Following</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h4><a class="nav navbar-nav navbar-right" href="javascript:void(0);" id="MyTweetBtn3" style="color: #428bca; text-decoration: underline; ">@ViewBag.FollwerCount</a></h4>
+            </div>
+            <div class="col-md-6">
+                <h4>Followers</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="imaginary_container">
+                    <div class="input-group stylish-input-group input-append">
+                        <input type="text" class="form-control" placeholder="Search Person">
+                        <span class="input-group-addon">
+                            <button type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="container_Twit">
+    <h2>Compose</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="glyphicon glyphicon-user"></span>  Compose new Tweet</div>
+        <div class="panel-body">
+            @*<form>
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                </div>
+            </form>*@
+            <form id="myForm" method="POST" action="?process-form">
+                <div class="input-group">
+                    <textarea class="form-control custom-control" id="tweetText" rows="3" style="resize:none"></textarea>
+                    <span class="input-group-addon btn btn-primary" id="submitMyForm">Share</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="jumbotron">
+    <div id="result"></div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#MyTweetBtn1').click(function () {
+            $('#result').load('/Home/Partial_GetTweetsDetails');
+        });
+        $('#MyTweetBtn2').click(function () {
+            $('#result').load('/Home/Partial_GetFollowingTweetsDetails');
+        });
+        $('#MyTweetBtn3').click(function () {
+            $('#result').load('/Home/Partial_GetFollowerTweetsDetails');
+        });
+        $("#submitMyForm").click(function () {
+            var TweetEntity = new Object();
+            TweetEntity.message = $('#tweetText').val();
+            if (TweetEntity != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AddTweet",
+                    data: JSON.stringify(TweetEntity),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response != null) {
+                            $('#result').load('/Home/Partial_GetTweetsDetails');
+                        } else {
+                            alert("Something went wrong");
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+<style>
+    #submitMyForm
+    {
+        border: 1px solid #3894bd;
+    background-color: #5c8ee4;
+    text-align: center;
+    border-radius: 6px;
+    }
+    input, select, textarea {
+    max-width: 99%;
+}
+    .container_Twit {
+    /* padding-right: 15px; */
+    /* padding-left: 15px; */
+    margin-right: auto;
+    margin-left: auto;
+}
+    .body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 50px;
+}
+    #imaginary_container{
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+.stylish-input-group .input-group-addon{
+    background: white !important; 
+}
+.stylish-input-group .form-control{
+    border-right:0; 
+	box-shadow:0 0 0; 
+	border-color:#ccc;
+}
+.stylish-input-group button{
+    border:0;
+    background:transparent;
+}
+</style>

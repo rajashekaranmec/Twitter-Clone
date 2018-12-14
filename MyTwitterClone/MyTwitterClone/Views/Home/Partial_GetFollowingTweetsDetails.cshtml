@@ -1,0 +1,46 @@
+﻿@foreach (var item in ViewData["FolllwingTweetData"] as List<MyTwitterClone.Entity.TweetEntity>)
+{
+    <div class="row">
+        <div class="col-md-3">
+            <h4>@item.user_id</h4>
+        </div>
+        <div class="col-md-3">
+            <h4>@item.message</h4>
+        </div>
+        <div class="col-md-3">
+            <h4>@item.created.ToString()</h4>
+        </div>
+        <div class="col-md-3">
+            <button type="button" id="FollowingUser" value="@item.user_id" class="btn btn-info">Following</button>
+        </div>
+    </div>
+}
+<script>
+    $("#FollowingUser").click(function () {
+        var FollowingEntity = new Object();
+        FollowingEntity.following_id = $('#FollowUser').val();
+        if (FollowingEntity != null) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/AddFollower",
+                data: JSON.stringify(FollowingEntity),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response != null) {
+                        $('#result').load('/Home/Partial_GetTweetsDetails');
+                    } else {
+                        alert("Something went wrong");
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+
+    });
+</script>

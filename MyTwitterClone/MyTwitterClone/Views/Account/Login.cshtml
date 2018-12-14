@@ -1,0 +1,56 @@
+﻿@model MyTwitterClone.Entity.PersonEntity
+@{
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="row">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h2 style="text-align: center;"><i class="fa fa-twitter-square" style="font-size: 29px;color:#1da1f2;padding-top: 10px;padding-right: 15px;"></i>Welcome To My Twitter Clone </h2>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @style = "text-align: center;", @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("User Name", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.user_id, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.user_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Password", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-5">
+                    </div>
+                    <div class="col-md-offset-2 col-md-7">
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" New User ?", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10" style="font-size: 20px !important;">
+                        @Html.ActionLink("Signup", "Register")
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<style>
+    .form-horizontal .form-group {
+        margin-left: 600px;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
