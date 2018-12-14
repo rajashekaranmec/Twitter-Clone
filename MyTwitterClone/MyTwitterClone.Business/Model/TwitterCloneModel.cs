@@ -10,6 +10,7 @@ namespace MyTwitterClone.Business.Model
 {
     public class TwitterCloneModel: Interface.ITwitterClone
     {
+        //constructor
         private readonly ITwitterClone _ITwitterClone;
         public TwitterCloneModel(ITwitterClone ITwitterClone)
         {
