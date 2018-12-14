@@ -9,6 +9,7 @@ namespace MyTwitterClone.Business.Interface
 {
     public interface ITwitterClone
     {
+        //Interfaces
         string AddUser(PersonEntity personDetails);
         bool LoginUser(PersonEntity personDetails);
         List<PersonEntity> GetUserDetails();
