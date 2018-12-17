@@ -9,6 +9,7 @@ namespace MyTwitterClone.Business.Helper
 {
     public class Helper
     {
+        //Encrypt password using MD5 Algorithm
         public static string EncodePasswordMd5(string pass) //Encrypt using MD5    
         {
             Byte[] originalBytes;
